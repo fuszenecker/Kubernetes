@@ -55,10 +55,11 @@ kubectl get pods -A -o wide
 kubectl get pods -Aw  -o wide
 ```
 
-Run an busybox:
+Run a busybox or mini-debian:
 
 ```
 kubectl run -it --rm busybox --image=busybox -n kube-system -- sh
+kubectl run -it --rm debian-slim --image=debian -- bash
 ```
 
 Ron a shell within a running image:
