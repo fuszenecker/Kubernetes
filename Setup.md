@@ -31,6 +31,7 @@ helm install ingress ingress-nginx/ingress-nginx -n kube-system --set controller
 Check if Nginx listens on node port (host network):
 
 ```
+netstat -nlt | egrep '(:80)|(:443)'
 netstat -nlt
 ```
 
