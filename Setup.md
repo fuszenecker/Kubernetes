@@ -25,6 +25,9 @@ kubectl get pods -Aw
 ## Install Nginx ingress
 
 ```
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+
 helm install ingress ingress-nginx/ingress-nginx -n kube-system --set controller.hostNetwork=true
 ```
 
