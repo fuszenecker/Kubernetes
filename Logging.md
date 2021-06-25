@@ -12,7 +12,7 @@ Add helm repo:
 helm repo add elastic https://helm.elastic.co
 ```
 
-Add a test version of elasticsearch, no storage is configured:
+Add a test version of Elasticsearch, no storage is configured:
 
 ```
 helm install elasticsearch elastic/elasticsearch -n logging --set replicas=1 --set persistence.ebalbes=false
