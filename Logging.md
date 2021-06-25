@@ -24,8 +24,22 @@ Wait until the pod starts:
 kubectl get pods -n logging
 ```
 
-Install Kibana:
+Install Kibana and wait until it starts:
 
 ```
 helm install kibana elastic/kibana -n logging 
+kubectl get pods -n logging
 ```
+
+Check services:
+
+```
+kubectl get pods -n logging
+```
+
+Add port-forward so that you can access Kibana:
+
+```
+kubectl port-forward service/kibana-kibana 5601:5601 -n logging --address=0.0.0.0
+```
+
