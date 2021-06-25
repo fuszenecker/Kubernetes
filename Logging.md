@@ -44,8 +44,8 @@ kubectl port-forward service/kibana-kibana 5601:5601 -n logging --address=0.0.0.
 kubectl port-forward service/elasticsearch-master 9200:9200 -n logging --address=0.0.0.0
 ```
 
-You can access Kibana trrough: `http://localhost:5601/app/discover`
-Do not forget to add index pattern: `http://localhost:5601/app/management/kibana/indexPatterns` and check indices: `http://localhost:5601/app/management/data/index_management/indices`.
+## Serilog setup
+
 
 For Serilog, use the configuration: 
 
@@ -56,3 +56,23 @@ For Serilog, use the configuration:
     IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower()}-{DateTime.UtcNow:yyyy-MM}"
 })
 ```
+
+os `appsettings.json`:
+
+```
+"WriteTo": [{
+    "Name": "Elasticsearch",
+    "Args": {
+      "nodeUris": "http://localhost:9200",
+      "indexFormat": "myapplication-{0:yyyy.MM}",
+      "autoRegisterTemplate": true,
+      "autoRegisterTemplateVersion": "ESv7"
+    }
+}]
+```
+
+## Kibana setup
+
+1. Check indices: `http://localhost:5601/app/management/data/index_management/indices`
+2. Add index pattern: `http://localhost:5601/app/management/kibana/indexPatterns`
+3. You can access log items in Kibana through: `http://localhost:5601/app/discover`
