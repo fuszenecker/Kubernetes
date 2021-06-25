@@ -1,4 +1,4 @@
-# Logging
+# Logging with Elasticsearch and Kibana
 
 Create namespace for logging:
 
