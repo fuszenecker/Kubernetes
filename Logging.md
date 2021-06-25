@@ -85,3 +85,23 @@ Log.CloseAndFlush();
 1. Check indices: `http://localhost:5601/app/management/data/index_management/indices`
 2. Add index pattern: `http://localhost:5601/app/management/kibana/indexPatterns`
 3. You can access log items in Kibana through: `http://localhost:5601/app/discover`
+
+# Localhost
+
+```
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+apt update
+apt install elasticsearch kibana
+systemctl enable elasticsearch.service
+systemctl start elasticsearch.service
+systemctl enable kibana.service
+systemctl start kibana.service
+apt install metricbeat filebeat
+filebeat modules enable system
+filebeat setup
+filebeat -e
+systemctl enable filebeat.service
+systemctl start filebeat.service
+systemctl enable metricbeat.service
+systemctl start metricbeat.service
+```
