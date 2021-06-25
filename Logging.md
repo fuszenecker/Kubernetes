@@ -57,7 +57,7 @@ For Serilog, use the configuration:
 })
 ```
 
-os `appsettings.json`:
+rs `appsettings.json`:
 
 ```
 "WriteTo": [{
