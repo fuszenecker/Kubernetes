@@ -71,6 +71,15 @@ rs `appsettings.json`:
 }]
 ```
 
+Remainder:
+
+```
+CreateHostBuilder(args).Build().Run();
+
+// Serilog + ElasticSearch are not the best friends.
+Log.CloseAndFlush();
+```
+
 ## Kibana setup
 
 1. Check indices: `http://localhost:5601/app/management/data/index_management/indices`
