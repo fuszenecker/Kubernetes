@@ -41,6 +41,7 @@ Add port-forward so that you can access Kibana:
 
 ```
 kubectl port-forward service/kibana-kibana 5601:5601 -n logging --address=0.0.0.0
+kubectl port-forward service/elasticsearch-master 9200:9200 -n logging --address=0.0.0.0
 ```
 
 You can access Kibana trrough: `http://127.0.0.1:5601/`
