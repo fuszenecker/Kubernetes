@@ -42,7 +42,7 @@ kubectl get pods -n logging
 Install Prometheus and wait until it starts:
 
 ```
-helm install prometheus prometheus-community/prometheus -n logging --set alertmanager.enabled=false --set nodeExporter.enabled=false --set pushgateway.enabled=false --set server.persistentVolume.enabled=false
+helm install prometheus prometheus-community/prometheus -n logging --set alertmanager.enabled=false --set nodeExporter.enabled=false --set pushgateway.enabled=true --set server.persistentVolume.enabled=false
 kubectl get pods -n logging
 ```
 
@@ -58,6 +58,7 @@ Add port-forward so that you can access Grafana and Loki:
 kubectl port-forward service/grafana 8080:80 -n logging --address=0.0.0.0
 kubectl port-forward service/loki 3100 -n logging --address=0.0.0.0
 kubectl port-forward service/prometheus-server 9090:80 -n logging --address=0.0.0.0
+kubectl port-forward service/prometheus-pushgateway 9091 -n logging --address=0.0.0.0
 ```
 
 ## Serilog setup
