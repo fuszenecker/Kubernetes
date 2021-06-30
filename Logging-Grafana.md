@@ -14,10 +14,10 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo update
 ```
 
-Add a test version of Elasticsearch, no storage is configured:
+Add a test version of Grafana, no storage is configured:
 
 ```
-helm install grafana grafana/grafana -n logging
+helm install Grafana grafana/grafana -n logging
 ```
 
 Wait until the pod starts:
@@ -32,10 +32,11 @@ Get the `admin` password for Grafana:
 kubectl get secret --namespace logging grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 
-Install Loki and wait until it starts:
+Install Loki, Promtail and wait until it starts:
 
 ```
-helm install loki grafana/loki -n logging 
+helm install loki grafana/loki -n logging
+helm install promtail grafana/promtail --set "loki.serviceName=loki" -n logging
 kubectl get pods -n logging
 ```
 
@@ -56,13 +57,12 @@ Add port-forward so that you can access Grafana and Loki:
 
 ```
 kubectl port-forward service/grafana 8080:80 -n logging --address=0.0.0.0
-kubectl port-forward service/loki 3100 -n logging --address=0.0.0.0
 kubectl port-forward service/prometheus-server 9090:80 -n logging --address=0.0.0.0
+kubectl port-forward service/loki 3100 -n logging --address=0.0.0.0
 kubectl port-forward service/prometheus-pushgateway 9091 -n logging --address=0.0.0.0
 ```
 
 ## Serilog setup
-
 
 For Serilog, use the configuration in `appsettings.json`:
 
@@ -75,7 +75,7 @@ For Serilog, use the configuration in `appsettings.json`:
 }]
 ```
 
-Remainder:
+Nota bene:
 
 ```
 var pusher = new MetricPusher("http://192.168.100.204:9090/metrics", "update_session_limit");
