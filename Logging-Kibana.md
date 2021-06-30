@@ -16,7 +16,7 @@ helm repo update
 Add a test version of Elasticsearch, no storage is configured:
 
 ```
-helm install elasticsearch elastic/elasticsearch -n logging --set replicas=1 --set persistence.ebalbes=false
+helm install elasticsearch elastic/elasticsearch -n logging --set replicas=1 --set persistence.enabled=false
 ```
 
 Wait until the pod starts:
@@ -58,7 +58,7 @@ For Serilog, use the configuration:
 })
 ```
 
-rs `appsettings.json`:
+or `appsettings.json`:
 
 ```
 "WriteTo": [{
