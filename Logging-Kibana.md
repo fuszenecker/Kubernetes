@@ -10,6 +10,7 @@ Add helm repo:
 
 ```
 helm repo add elastic https://helm.elastic.co
+helm repo update
 ```
 
 Add a test version of Elasticsearch, no storage is configured:
