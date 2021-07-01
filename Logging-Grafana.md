@@ -47,6 +47,18 @@ helm install loki-stack grafana/loki-stack -n logging --set promtail.enabled=tru
 kubectl get pods -n logging
 ```
 
+You might want to edit the Promtail daemonset (editing the chart `values.yaml` is a better approach):
+
+```
+kubectl get pods -n logging
+
+...
+mountPath: /media/externalis/Docker/containers
+...
+path: /media/externalis/Docker/containers
+...
+```
+
 Install Prometheus and wait until it starts:
 
 ```
