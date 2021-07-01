@@ -40,6 +40,13 @@ helm install promtail grafana/promtail --set "loki.serviceName=loki" -n logging
 kubectl get pods -n logging
 ```
 
+Or maybe:
+
+```
+helm install loki-stack grafana/loki-stack -n logging --set promtail.enabled=true,loki.persistence.enabled=false
+kubectl get pods -n logging
+```
+
 Install Prometheus and wait until it starts:
 
 ```
