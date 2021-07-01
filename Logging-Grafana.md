@@ -1,4 +1,4 @@
-# Logging with Grafana and Loki
+# Logging with Grafana, Loki and Promtail
 
 Create namespace for logging:
 
@@ -32,7 +32,7 @@ Get the `admin` password for Grafana:
 kubectl get secret --namespace logging grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 
-Install Loki, Promtail and wait until it starts:
+Install Loki and Promtail, and wait until they start:
 
 ```
 helm install loki grafana/loki -n logging
