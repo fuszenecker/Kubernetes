@@ -224,7 +224,15 @@ For Serilog, use the configuration in `appsettings.json`:
 }]
 ```
 
-Nota bene:
+### LogQL examples:
+
+`totalUpdated` comes from Serilog.
+
+```
+avg_over_time({SourceContext="UpdateSessionLimit.Worker"} |~ "Updated (.+) sessions." | unwrap totalUpdated[60m])
+```
+
+### Nota bene:
 
 ```
 var pusher = new MetricPusher("http://192.168.100.204:9090/metrics", "my_app");
