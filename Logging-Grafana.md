@@ -1,9 +1,9 @@
-# Logging with Grafana, Loki and Promtail
+# Logging with Grafana, Prometheus, Loki, Promtail and Tempo
 
 Create folder for storages:
 
 ```
-sudo mkdir -p /media/externalis/Grafana/{grafana,loki,prometheus}
+sudo mkdir -p /media/externalis/Grafana/{grafana,loki,prometheus,tempo}
 ```
 
 Create namespace for logging:
@@ -95,6 +95,31 @@ spec:
           operator: In
           values:
           - rpi4.local
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: tempo
+spec:
+  capacity:
+    storage: 3Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: local-storage
+  local:
+    path: /media/externalis/Grafana/tempo
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - rpi4.local
 ```
 
 Install Loki and Promtail, and wait until they start:
@@ -120,6 +145,13 @@ Install Prometheus and wait until it starts:
 
 ```
 helm install prometheus prometheus-community/prometheus -n logging --set alertmanager.enabled=false --set nodeExporter.enabled=false --set pushgateway.enabled=true --set server.persistentVolume.enabled=true --set server.persistentVolume.storageClass=local-storage
+kubectl get pods,pvc,pv -n logging -o wide
+```
+
+Install Tempo:
+
+```
+helm install tempo grafana/tempo -n logging --set persistence.enabled=true --set persistence.size=3Gi --set persistence.storageClassName=local-storage
 kubectl get pods,pvc,pv -n logging -o wide
 ```
 
