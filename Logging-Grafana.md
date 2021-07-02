@@ -65,6 +65,30 @@ spec:
           values:
           - rpi4.local
 
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: grafana
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: local-storage
+  local:
+    path: /media/externalis/Grafana/grafana
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - rpi4.local
 ```
 
 Install Loki and Promtail, and wait until they start:
