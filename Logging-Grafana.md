@@ -176,7 +176,7 @@ Check evetyrging:
 ```
 $ kubectl get pods,pvc,pv,svc -n logging -o wide
 NAME                                                READY   STATUS    RESTARTS   AGE   IP          NODE         NOMINATED NODE   READINESS GATES
-pod/grafana-84b6556fd-dp7dz                         0/1     Running   0          3m    10.1.0.45   rpi4.local   <none>           <none>
+pod/grafana-84b6556fd-dp7dz                         1/1     Running   0          3m    10.1.0.45   rpi4.local   <none>           <none>
 pod/loki-stack-0                                    1/1     Running   0          24m   10.1.0.40   rpi4.local   <none>           <none>
 pod/loki-stack-promtail-hkbs6                       1/1     Running   0          19m   10.1.0.41   rpi4.local   <none>           <none>
 pod/prometheus-kube-state-metrics-bc6c8c864-nx6g8   1/1     Running   0          10m   10.1.0.43   rpi4.local   <none>           <none>
