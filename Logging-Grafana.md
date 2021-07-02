@@ -1,5 +1,11 @@
 # Logging with Grafana, Loki and Promtail
 
+Create folder for storages:
+
+```
+sudo mkdir -p /media/externalis/Grafana/{grafana,loki,prometheus}
+```
+
 Create namespace for logging:
 
 ```
