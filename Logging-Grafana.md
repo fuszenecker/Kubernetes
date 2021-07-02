@@ -227,10 +227,10 @@ For Serilog, use the configuration in `appsettings.json`:
 Nota bene:
 
 ```
-var pusher = new MetricPusher("http://192.168.100.204:9090/metrics", "update_session_limit");
+var pusher = new MetricPusher("http://192.168.100.204:9090/metrics", "my_app");
 pusher.Start();
 
-CreateHostBuilder(args, customerId, sessionLimit).Build().Run();
+CreateHostBuilder(args).Build().Run();
 
 // Serilog and Grafana are not the best friends.
 Log.CloseAndFlush();
