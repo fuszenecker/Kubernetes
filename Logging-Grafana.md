@@ -253,9 +253,17 @@ Services need to be annotated to be scraped by Prometheus.
 apiVersion: v1
 kind: Service
 metadata:
-  name: dntelemetry-service
+  name: my-service
   annotations:
     prometheus.io/port: telemetry
     prometheus.io/scrape: "true"
     prometheus.io/path: "/metrics"
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+      name: telemetry
 ```
