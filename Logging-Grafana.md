@@ -234,6 +234,8 @@ avg_over_time({SourceContext="UpdateSessionLimit.Worker"} |~ "Updated (.+) sessi
 
 ### Nota bene:
 
+If there is no [official way](https://github.com/prometheus-net/prometheus-net#aspnet-core-exporter-middleware) to collect metrics, use the push gateway:
+
 ```
 var pusher = new MetricPusher("http://192.168.100.204:9090/metrics", "my_app");
 pusher.Start();
@@ -243,4 +245,17 @@ CreateHostBuilder(args).Build().Run();
 // Serilog and Grafana are not the best friends.
 Log.CloseAndFlush();
 pusher.Stop();
+```
+
+Services need to be annotated to be scraped by Prometheus.
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: dntelemetry-service
+  annotations:
+    prometheus.io/port: telemetry
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/metrics"
 ```
