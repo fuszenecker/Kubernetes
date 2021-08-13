@@ -2,14 +2,14 @@
 
 ## ZFS
 
-Enable few features in order to do some performance increase:
+Enable few features (when e.g. creating a ZFS pool) in order to do some performance increase:
 
 ```
 zpool create \
     -o ashift=12 -o autotrim=on \
     -O acltype=posixacl -O canmount=off -O compression=lz4 \
     -O dnodesize=auto -O normalization=formD -O relatime=on \
-    -O xattr=sa -O mountpoint=/ -R /mnt \
+    -O xattr=sa [...] \
     rpool ${DISK}
 ```
 
