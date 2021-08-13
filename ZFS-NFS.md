@@ -120,7 +120,7 @@ kubectl exec -it  busybox -n db sh
 Check if mounts work:
 
 ```
-fuszenecker@rpi4:~/db $ kubectl exec -it  busybox -n db -- sh
+fuszenecker@rpi4:~/db $ kubectl exec -it busybox -n db -- sh
 / # mount
 [...]
 rpi4.local:/media/zfs/db on /nfs type nfs4 (rw,relatime,vers=4.2,rsize=131072,wsize=131072,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,clientaddr=192.168.100.204,local_lock=none,addr=192.168.100.204)
