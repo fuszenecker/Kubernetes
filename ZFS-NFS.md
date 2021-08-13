@@ -10,7 +10,7 @@ zpool create \
     -O acltype=posixacl -O compression=zstd-fast \
     -O dnodesize=auto -O normalization=formD -O relatime=on \
     -O xattr=sa [...] \
-    rpool ${DISK}
+    zfspool ${DISK}
 ```
 
 On older systems, enable ZFS services:
