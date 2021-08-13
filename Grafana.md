@@ -229,7 +229,9 @@ For Serilog, use the configuration in `appsettings.json`:
 `totalUpdated` comes from Serilog.
 
 ```
-avg_over_time({SourceContext="UpdateSessionLimit.Worker"} |~ "Updated (.+) sessions." | unwrap totalUpdated[60m])
+Rate of a counter: rate(http_request_total[5m])
+P95 quantile of a histogram: histogram_quantile(0.95, sum(rate(dntelemetry_forecast_duration_seconds_bucket[125m])) by (le))
+Extract data from metricslogs: avg_over_time({SourceContext="UpdateSessionLimit.Worker"} |~ "Updated (.+) sessions." | unwrap totalUpdated[60m])
 ```
 
 ### Nota bene:
