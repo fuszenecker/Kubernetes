@@ -1,4 +1,4 @@
-# ZFS, NFS amd Kubernetes
+# ZFS, NFS and Kubernetes
 
 ## ZFS
 
