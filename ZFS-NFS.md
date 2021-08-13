@@ -7,7 +7,7 @@ Enable few features (when e.g. creating a ZFS pool) in order to do some performa
 ```
 zpool create \
     -o ashift=12 -o autotrim=on \
-    -O acltype=posixacl -O canmount=off -O compression=lz4 \
+    -O acltype=posixacl -O compression=zstd-fast \
     -O dnodesize=auto -O normalization=formD -O relatime=on \
     -O xattr=sa [...] \
     rpool ${DISK}
