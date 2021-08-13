@@ -101,7 +101,10 @@ sudo kubeadm reset
 ```
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm search hub | grep rabbit
+helm search repo ingress-nginx
+helm search repo ingress-nginx -l
 helm install mychart myrepo/mychart -n mynamespace
+helm install mychart myrepo/mychart -n mynamespace --version 1.7.0
 helm list -A
 helm repo index .
 ```
