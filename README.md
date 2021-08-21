@@ -43,7 +43,7 @@ You should see that something is listening on :80 and :443
 ## Install Certificate manager ([cert-manager.io](https://cert-manager.io/docs/installation/)) for managing TLS certificates issued by e.g. Let's Encrypt
 
 ```
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.4.0/cert-manager.yaml
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/latest/cert-manager.yaml
 ```
 
 Forther steps: [Certificate Manager + Let's Encrypt](https://cert-manager.io/docs/tutorials/acme/ingress/#step-6-configure-let-s-encrypt-issuer)
