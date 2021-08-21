@@ -31,7 +31,15 @@ helm repo update
 helm install ingress ingress-nginx/ingress-nginx -n kube-system --set controller.hostNetwork=true
 ```
 
-Check if Nginx listens on node port (host network):
+Or if `nginx` doesn't work for some reason:
+
+```
+helm repo add traefik https://helm.traefik.io/traefik
+helm repo update
+helm install traefik traefik/traefik --set "service.externalIPs={ 192.168.100.204 }"
+```
+
+Check if Nginx (or Traefik) listens on node port (host network):
 
 ```
 netstat -nlt | egrep '(:80)|(:443)'
