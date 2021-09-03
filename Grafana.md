@@ -3,7 +3,7 @@
 Create folder for storages:
 
 ```
-sudo mkdir -p /media/externalis/Grafana/{grafana,loki,prometheus,tempo}
+sudo mkdir -p /media/externale/Grafana/{grafana,loki,prometheus,tempo}
 ```
 
 Create namespace for logging:
@@ -36,7 +36,7 @@ spec:
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: /media/externalis/Grafana/loki
+    path: /media/externale/Grafana/loki
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -61,7 +61,7 @@ spec:
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: /media/externalis/Grafana/prometheus
+    path: /media/externale/Grafana/prometheus
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -86,7 +86,7 @@ spec:
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: /media/externalis/Grafana/grafana
+    path: /media/externale/Grafana/grafana
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -111,7 +111,7 @@ spec:
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: /media/externalis/Grafana/tempo
+    path: /media/externale/Grafana/tempo
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -135,9 +135,9 @@ You might want to edit the Promtail daemonset (editing the chart `values.yaml` i
 kubectl edit daemonset loki-stack-promtail -n logging
 
 ...
-mountPath: /media/externalis/Docker/containers
+mountPath: /media/externale/Docker/containers
 ...
-path: /media/externalis/Docker/containers
+path: /media/externale/Docker/containers
 ...
 ```
 
