@@ -234,6 +234,20 @@ P95 quantile of a histogram: histogram_quantile(0.95, sum(rate(dntelemetry_forec
 Extract data from metricslogs: avg_over_time({SourceContext="UpdateSessionLimit.Worker"} |~ "Updated (.+) sessions." | unwrap totalUpdated[60m])
 ```
 
+### Variable example
+
+Variable query, getting container names e.g. as `container`:
+
+```
+label_values(consumer_healthchecks_duration_bucket, container)
+```
+
+Data query:
+
+```
+histogram_quantile(0.95, sum(rate(consumer_healthchecks_duration_bucket{container="$container"}[5m])) by (le))
+```
+
 ### Nota bene:
 
 If there is no [official way](https://github.com/prometheus-net/prometheus-net#aspnet-core-exporter-middleware) to collect metrics, use the push gateway:
