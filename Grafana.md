@@ -171,7 +171,7 @@ kubectl get secret --namespace logging grafana -o jsonpath="{.data.admin-passwor
 
 Install Prometheus and wait until it starts:
 
-Check evetyrging:
+Check everything:
 
 ```
 $ kubectl get pods,pvc,pv,svc -n logging -o wide
