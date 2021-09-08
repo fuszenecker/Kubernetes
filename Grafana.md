@@ -1,4 +1,4 @@
-# Logging with Grafana, Prometheus, Loki, Promtail and Tempo
+# Logging and metrics with Grafana, Prometheus, Loki, Promtail and Tempo
 
 Create folder for storages:
 
