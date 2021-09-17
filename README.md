@@ -56,6 +56,8 @@ kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/downlo
 
 Forther steps: [Certificate Manager + Let's Encrypt](https://cert-manager.io/docs/tutorials/acme/ingress/#step-6-configure-let-s-encrypt-issuer)
 
+You might want to install certificate issuer to each namespace that contains a service to be exposed.
+
 ## Kubernetes useful commands
 
 [kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
