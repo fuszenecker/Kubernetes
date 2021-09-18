@@ -97,7 +97,7 @@ kubectl describe ingress -A
 Port-forward (temporarily) a host port to a running service without using ingress:
 
 ```
-kubectl port-forward svc/kibana-kibana 3000:3000 --address 0.0.0.0 -n elk
+kubectl port-forward service/grafana 3000:80 -n logging --address=0.0.0.0
 ```
 
 Say goodbye to a custer:
