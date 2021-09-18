@@ -1,5 +1,14 @@
 # Kubernetes setup
 
+## Bash setup
+
+It's better to set up autocompletion in the very beginning:
+
+```
+sudo -i
+kubectl completion bash >/etc/bash_completion.d/kubectl
+```
+
 ## Cluster setup
 
 ```
