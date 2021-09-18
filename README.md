@@ -31,7 +31,7 @@ helm repo update
 helm install ingress ingress-nginx/ingress-nginx -n kube-system --set controller.hostNetwork=true
 ```
 
-Or if `nginx` doesn't work for some reason:
+Or if `nginx` doesn't work for some reason, and you don't have other options:
 
 ```
 helm repo add traefik https://helm.traefik.io/traefik
@@ -56,7 +56,7 @@ kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/downlo
 
 Forther steps: [Certificate Manager + Let's Encrypt](https://cert-manager.io/docs/tutorials/acme/ingress/#step-6-configure-let-s-encrypt-issuer)
 
-You might want to install certificate issuer to each namespace that contains a service to be exposed.
+⚠️ You might want to install certificate issuer to each namespace that contains a service to be exposed.
 
 ## Kubernetes useful commands
 
@@ -115,6 +115,7 @@ helm search repo ingress-nginx
 helm search repo ingress-nginx -l
 helm install mychart myrepo/mychart -n mynamespace
 helm install mychart myrepo/mychart -n mynamespace --version 1.7.0
+helm upgrade mychart -n mynamespace .
 helm list -A
 helm repo index .
 ```
