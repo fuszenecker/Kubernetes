@@ -67,6 +67,25 @@ Forther steps: [Certificate Manager + Let's Encrypt](https://cert-manager.io/doc
 
 ⚠️ You might want to install certificate issuer to each namespace that contains a service to be exposed.
 
+```
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt-prod
+  namespace: ???
+spec:
+  acme:
+    email: robert.fuszenecker@outlook.com
+    preferredChain: ""
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+```
+
 ## Kubernetes useful commands
 
 [kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
