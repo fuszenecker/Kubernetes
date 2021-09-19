@@ -157,7 +157,7 @@ extraVolumes: []
 
 ```
 helm repo add twuni https://helm.twun.io
-elm repo update
+helm repo update
 
 helm install twuni/docker-registry -n registry -f values.yaml
 ```
