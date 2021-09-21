@@ -12,11 +12,11 @@ kubectl completion bash >/etc/bash_completion.d/kubectl
 ## Cluster setup
 
 ```
-sudo kubeadm init --apiserver-advertise-address 192.168.100.204 --pod-network-cidr 10.1.0.0/16 --service-cidr 10.2.0.0/16 # --control-plane-endpoint=fuszenecker.ignorelist.com --apiserver-advertise-address=192.168.100.204
+sudo kubeadm init --apiserver-advertise-address 192.168.100.204 --pod-network-cidr 10.1.0.0/16 --service-cidr 10.2.0.0/16 # --control-plane-endpoint=fuszenecker.ignorelist.com
 kubectl taint nodes --all node-role.kubernetes.io/master-
 ```
 
-`--control-plane-endpoint` and `--apiserver-advertise-address` are for HA clusters.
+`--control-plane-endpoint` is for HA clusters (with multiple master plane).
 
 ## Installing pod networking
 
