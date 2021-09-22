@@ -42,22 +42,19 @@ helm install ingress ingress-nginx/ingress-nginx -n kube-system --set controller
 # This is the old, a bit unsecure way: helm install ingress ingress-nginx/ingress-nginx -n kube-system --set controller.hostNetwork=true
 ```
 
-Or if `nginx` doesn't work for some reason, and you don't have other options:
+Check if Nginx listens on node port (host network):
 
 ```
-helm repo add traefik https://helm.traefik.io/traefik
-helm repo update
-helm install traefik traefik/traefik --set "service.externalIPs={ 192.168.100.204 }"
-```
-
-Check if Nginx (or Traefik) listens on node port (host network):
-
-```
-netstat -nlt | egrep '(:80)|(:443)'
+netstat -nlt | egrep '(:32000)|(:32001)'
 netstat -nlt
 ```
 
-You should see that something is listening on :80 and :443
+You should see that something is listening on `:32000` and `:32001`:
+
+```
+tcp        0      0 0.0.0.0:32000           0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:32001           0.0.0.0:*               LISTEN
+```
 
 ## Install Certificate manager ([cert-manager.io](https://cert-manager.io/docs/installation/)) for managing TLS certificates issued by e.g. Let's Encrypt
 
