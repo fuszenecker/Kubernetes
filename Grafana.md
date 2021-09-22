@@ -185,6 +185,11 @@ spec:
   - hosts:
       - fuszenecker-grafana.ignorelist.com
     secretName: grafana-tls
+  defaultBackend:
+    service:
+      name: test
+      port:
+        number: 80
   rules:
   - host: fuszenecker-grafana.ignorelist.com
     http:
