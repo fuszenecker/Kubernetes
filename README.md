@@ -39,7 +39,7 @@ helm repo update
 
 helm install ingress ingress-nginx/ingress-nginx -n kube-system --set controller.service.nodePorts.http=32000 --set controller.service.nodePorts.https=32001 --set controller.service.type=NodePort
 
-# This is the old way: helm install ingress ingress-nginx/ingress-nginx -n kube-system --set controller.hostNetwork=true
+# This is the old, a bit unsecure way: helm install ingress ingress-nginx/ingress-nginx -n kube-system --set controller.hostNetwork=true
 ```
 
 Or if `nginx` doesn't work for some reason, and you don't have other options:
