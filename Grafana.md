@@ -1,9 +1,9 @@
-# Logging and metrics with Grafana, Prometheus, Loki, Promtail and Tempo
+# Logging and metrics with Grafana, Prometheus, Loki and Promtail
 
 Create folder for storages:
 
 ```
-sudo mkdir -p /media/externale/Grafana/{grafana,loki,prometheus,tempo}
+sudo mkdir -p /media/externale/Grafana/{grafana,loki,prometheus}
 ```
 
 Create namespace for logging:
@@ -95,31 +95,6 @@ spec:
           operator: In
           values:
           - rpi4.local
-
----
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: tempo
-spec:
-  capacity:
-    storage: 3Gi
-  volumeMode: Filesystem
-  accessModes:
-  - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Delete
-  storageClassName: local-storage
-  local:
-    path: /media/externale/Grafana/tempo
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - rpi4.local
 ```
 
 Install Loki and Promtail, and wait until they start:
@@ -129,29 +104,10 @@ helm install loki-stack grafana/loki-stack -n logging --set loki.persistence.ena
 kubectl get pods,pvc,pv -n logging -o wide
 ```
 
-You might want to edit the Promtail daemonset (editing the chart `values.yaml` is a better approach):
-
-```
-kubectl edit daemonset loki-stack-promtail -n logging
-
-...
-mountPath: /media/externale/Docker/containers
-...
-path: /media/externale/Docker/containers
-...
-```
-
 Install Prometheus and wait until it starts:
 
 ```
 helm install prometheus prometheus-community/prometheus -n logging --set alertmanager.enabled=false --set nodeExporter.enabled=false --set pushgateway.enabled=true --set server.persistentVolume.enabled=true --set server.persistentVolume.storageClass=local-storage
-kubectl get pods,pvc,pv -n logging -o wide
-```
-
-Install Tempo:
-
-```
-helm install tempo grafana/tempo -n logging --set persistence.enabled=true --set persistence.size=3Gi --set persistence.storageClassName=local-storage
 kubectl get pods,pvc,pv -n logging -o wide
 ```
 
