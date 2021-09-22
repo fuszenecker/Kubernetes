@@ -3,7 +3,7 @@
 Create folder for storages:
 
 ```
-sudo mkdir -p /media/externale/Grafana/{grafana,loki,prometheus}
+sudo mkdir -p /var/lib/{grafana,loki,prometheus}
 ```
 
 Create namespace for logging:
@@ -36,7 +36,7 @@ spec:
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: /media/externale/Grafana/loki
+    path: /var/lib/loki
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -61,7 +61,7 @@ spec:
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: /media/externale/Grafana/prometheus
+    path: /var/lib/prometheus
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -86,7 +86,7 @@ spec:
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: /media/externale/Grafana/grafana
+    path: /var/lib/grafana
   nodeAffinity:
     required:
       nodeSelectorTerms:
