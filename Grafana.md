@@ -167,6 +167,37 @@ kubectl port-forward service/loki-stack 3100 -n logging --address=0.0.0.0
 kubectl port-forward service/prometheus-pushgateway 9091 -n logging --address=0.0.0.0
 ```
 
+## Ingress rules
+
+You will need a TLS-enabled ingress like this:
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: logging
+  annotations:
+    cert-manager.io/issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: nginx
+spec:
+  tls:
+  - hosts:
+      - fuszenecker-grafana.ignorelist.com
+    secretName: grafana-tls
+  rules:
+  - host: fuszenecker-grafana.ignorelist.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: grafana
+            port:
+              number: 80
+```
+
 ## Serilog setup
 
 For Serilog, use the configuration in `appsettings.json`:
