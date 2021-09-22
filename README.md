@@ -146,3 +146,13 @@ helm upgrade mychart -n mynamespace .
 helm list -A
 helm repo index .
 ```
+
+## Troubleshooting
+
+```
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+```
+
+And the [DNS debug page](https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/) at Google.
