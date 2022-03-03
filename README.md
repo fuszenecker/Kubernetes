@@ -64,7 +64,7 @@ tcp        0      0 0.0.0.0:32001           0.0.0.0:*               LISTEN
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
 ```
 
-Forther steps: [Certificate Manager + Let's Encrypt](https://cert-manager.io/docs/tutorials/acme/ingress/#step-6-configure-let-s-encrypt-issuer)
+Forther steps: [Certificate Manager + Let's Encrypt](https://cert-manager.io/docs/tutorials/acme/nginx-ingress/#step-6-configure-let-s-encrypt-issuer)
 
 ⚠️ You might want to install certificate issuer to each namespace that contains a service to be exposed.
 
