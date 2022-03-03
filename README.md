@@ -56,8 +56,6 @@ tcp        0      0 0.0.0.0:32000           0.0.0.0:*               LISTEN
 tcp        0      0 0.0.0.0:32001           0.0.0.0:*               LISTEN
 ```
 
-ℹ️ If I will have some time, I'll try out [Emissary-Ingress](https://www.getambassador.io/docs/emissary/latest/topics/install/helm/).
-
 ## Install Certificate manager ([cert-manager.io](https://cert-manager.io/docs/installation/)) for managing TLS certificates issued by e.g. Let's Encrypt
 
 ```
