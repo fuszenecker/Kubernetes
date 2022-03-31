@@ -33,12 +33,16 @@ kubectl get pods -Aw
 
 ## Install Nginx ingress
 
-### NodePort
+Adding Heml repo:
 
 ```
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
+```
 
+### NodePort
+
+```
 helm install ingress ingress-nginx/ingress-nginx -n kube-system --set controller.service.type=NodePort --set controller.service.nodePorts.http=32000 --set controller.service.nodePorts.https=32001
 ```
 
