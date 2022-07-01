@@ -119,6 +119,10 @@ metadata:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.middlewares: mynamespace-strip-prefix@kubernetescrd
 spec:
+  tls:
+  - hosts:
+      - fuszenecker.eu
+    secretName: letsencrypt-prod
   rules:
   - http:
       paths:
@@ -133,7 +137,7 @@ spec:
 ## Install Certificate manager ([cert-manager.io](https://cert-manager.io/docs/installation/)) for managing TLS certificates issued by e.g. Let's Encrypt
 
 ```
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 ```
 
 Forther steps: [Certificate Manager + Let's Encrypt](https://cert-manager.io/docs/tutorials/acme/nginx-ingress/#step-6-configure-let-s-encrypt-issuer)
