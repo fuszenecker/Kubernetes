@@ -116,6 +116,41 @@ Further reading:
 * https://doc.traefik.io/traefik/providers/kubernetes-crd/
 * https://doc.traefik.io/traefik/https/acme/ (Let's Encrypt)
 
+```
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix
+  namespace: mynamespace
+spec:
+  stripPrefix:
+    prefixes:
+      - "/mypath"
+    forceSlash: true
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+  namespace: mynamespace
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.middlewares: mynamespace-strip-prefix@kubernetescrd
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /mypath
+        pathType: Prefix
+        backend:
+          service:
+            name: myservice
+            port:
+              number: 8000
+```
+
 ## Kubernetes useful commands
 
 [kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
