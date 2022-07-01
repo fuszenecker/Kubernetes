@@ -33,7 +33,7 @@ kubectl get pods -Aw
 
 ## Install Nginx ingress
 
-Adding Heml repo:
+Adding Helm repo:
 
 ```
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
