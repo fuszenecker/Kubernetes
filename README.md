@@ -135,6 +135,7 @@ spec:
             port:
               number: 8000
 ```
+
 ## Install Certificate manager ([cert-manager.io](https://cert-manager.io/docs/installation/)) for managing TLS certificates issued by e.g. Let's Encrypt
 
 ```
@@ -161,6 +162,12 @@ spec:
         ingress:
           # class: nginx
           class: traefik
+```
+
+Check certificate requests
+
+```
+kubectl describe certificaterequests -A
 ```
 
 ## Kubernetes useful commands
