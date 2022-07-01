@@ -70,35 +70,6 @@ tcp        0      0 0.0.0.0:32000           0.0.0.0:*               LISTEN
 tcp        0      0 0.0.0.0:32001           0.0.0.0:*               LISTEN
 ```
 
-## Install Certificate manager ([cert-manager.io](https://cert-manager.io/docs/installation/)) for managing TLS certificates issued by e.g. Let's Encrypt
-
-```
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
-```
-
-Forther steps: [Certificate Manager + Let's Encrypt](https://cert-manager.io/docs/tutorials/acme/nginx-ingress/#step-6-configure-let-s-encrypt-issuer)
-
-⚠️ You might want to install certificate issuer to each namespace that contains a service to be exposed.
-
-```
-apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: letsencrypt-prod
-  namespace: ???
-spec:
-  acme:
-    email: robert.fuszenecker@outlook.com
-    preferredChain: ""
-    privateKeySecretRef:
-      name: letsencrypt-prod
-    server: https://acme-v02.api.letsencrypt.org/directory
-    solvers:
-    - http01:
-        ingress:
-          class: nginx
-```
-
 ## (TO BE TESTED) Install Traefik ingress
 
 :warning: To be tested, not recommended yet!
@@ -115,6 +86,15 @@ Further reading:
 * https://github.com/traefik/traefik-helm-chart
 * https://doc.traefik.io/traefik/providers/kubernetes-crd/
 * https://doc.traefik.io/traefik/https/acme/ (Let's Encrypt)
+
+```
+nmap -n localhost
+[...]
+80/tcp    open  http
+[...]
+443/tcp   open  https
+[...]
+```
 
 ```
 apiVersion: traefik.containo.us/v1alpha1
@@ -149,6 +129,34 @@ spec:
             name: myservice
             port:
               number: 8000
+```
+## Install Certificate manager ([cert-manager.io](https://cert-manager.io/docs/installation/)) for managing TLS certificates issued by e.g. Let's Encrypt
+
+```
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
+```
+
+Forther steps: [Certificate Manager + Let's Encrypt](https://cert-manager.io/docs/tutorials/acme/nginx-ingress/#step-6-configure-let-s-encrypt-issuer)
+
+⚠️ You might want to install certificate issuer to each namespace that contains a service to be exposed.
+
+```
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt-prod
+  namespace: ???
+spec:
+  acme:
+    email: robert.fuszenecker@outlook.com
+    preferredChain: ""
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
 ```
 
 ## Kubernetes useful commands
