@@ -114,6 +114,7 @@ netstat -nlt | egrep '(:80)|(:443)'
 Further reading: 
 * https://github.com/traefik/traefik-helm-chart
 * https://doc.traefik.io/traefik/providers/kubernetes-ingress/
+* https://doc.traefik.io/traefik/https/acme/ (Let's Encrypt)
 
 ## Kubernetes useful commands
 
