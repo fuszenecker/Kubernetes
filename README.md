@@ -99,6 +99,22 @@ spec:
           class: nginx
 ```
 
+## (TO BE TESTED) Install Traefik ingress
+
+:warning: To be tested, not recommended yet!
+
+```
+helm repo add traefik https://helm.traefik.io/traefik
+helm repo update
+helm install traefik traefik/traefik
+kubectl get svc -l app.kubernetes.io/name=traefik
+netstat -nlt | egrep '(:80)|(:443)'
+```
+
+Further reading: 
+* https://github.com/traefik/traefik-helm-chart
+* https://doc.traefik.io/traefik/providers/kubernetes-ingress/
+
 ## Kubernetes useful commands
 
 [kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
