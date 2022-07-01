@@ -79,7 +79,6 @@ helm repo add traefik https://helm.traefik.io/traefik
 helm repo update
 helm install traefik traefik/traefik
 kubectl get svc -l app.kubernetes.io/name=traefik
-netstat -nlt | egrep '(:80)|(:443)'
 ```
 
 Further reading: 
