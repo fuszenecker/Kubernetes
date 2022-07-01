@@ -118,11 +118,12 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.middlewares: mynamespace-strip-prefix@kubernetescrd
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   tls:
   - hosts:
       - fuszenecker.eu
-    secretName: letsencrypt-prod
+    secretName: letsencrypt-prod-cert
   rules:
   - http:
       paths:
@@ -146,21 +147,20 @@ Forther steps: [Certificate Manager + Let's Encrypt](https://cert-manager.io/doc
 
 ```
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
   name: letsencrypt-prod
-  namespace: ???
 spec:
   acme:
     email: robert.fuszenecker@outlook.com
-    preferredChain: ""
     privateKeySecretRef:
-      name: letsencrypt-prod
+      name: letsencrypt-prod-key
     server: https://acme-v02.api.letsencrypt.org/directory
     solvers:
     - http01:
         ingress:
-          class: nginx
+          # class: nginx
+          class: traefik
 ```
 
 ## Kubernetes useful commands
