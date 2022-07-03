@@ -11,80 +11,18 @@ kubectl completion bash >/etc/bash_completion.d/kubectl
 
 ## Cluster setup
 
-```
-sudo kubeadm init --apiserver-advertise-address 192.168.100.204 --service-cidr 10.1.0.0/16 --pod-network-cidr 10.2.0.0/16 # --control-plane-endpoint fuszenecker.ignorelist.com
-kubectl taint nodes --all node-role.kubernetes.io/master-
-```
-
-`--control-plane-endpoint` is for HA clusters (with multiple master plane).
-
-## Installing pod networking
-
-```
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-```
+Please visit [RKE2 Quick Start page](https://docs.rke2.io/install/quickstart/) or [K3s page](https://k3s.io/).
 
 Check if pods are ready:
 
 ```
+mkdir -f ~/.kube
+cp /etc/rancher/rke2/rke2.yaml ~/.kube/config
 kubectl get pods -A
 kubectl get pods -Aw
 ```
 
-## Install Nginx ingress
-
-Adding Helm repo:
-
-```
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
-```
-
-### NodePort
-
-```
-helm install ingress ingress-nginx/ingress-nginx -n kube-system --set controller.service.type=NodePort --set controller.service.nodePorts.http=32000 --set controller.service.nodePorts.https=32001
-```
-
-### Host networking
-
-If NodePort is not an option, this can also work, however, it is a bit insecure way:
-
-```
-helm install ingress ingress-nginx/ingress-nginx -n kube-system --set controller.hostNetwork=true
-```
-
-### Checks
-
-Check if Nginx listens on node port (host network):
-
-```
-netstat -nlt | egrep '(:32000)|(:32001)|(:80)|(:443)'
-netstat -nlt
-```
-
-You should see that something is listening on `:32000` and `:32001` (or `:80` and `:443`):
-
-```
-tcp        0      0 0.0.0.0:32000           0.0.0.0:*               LISTEN     
-tcp        0      0 0.0.0.0:32001           0.0.0.0:*               LISTEN
-```
-
-## (TO BE TESTED) Install Traefik ingress
-
-:warning: To be tested, not recommended yet!
-
-```
-helm repo add traefik https://helm.traefik.io/traefik
-helm repo update
-helm install traefik traefik/traefik
-kubectl get svc -l app.kubernetes.io/name=traefik
-```
-
-Further reading: 
-* https://github.com/traefik/traefik-helm-chart
-* https://doc.traefik.io/traefik/providers/kubernetes-crd/
-* https://doc.traefik.io/traefik/https/acme/ (Let's Encrypt)
+To check if the HTTP and HTTPS ports are open:
 
 ```
 nmap -n localhost
@@ -95,7 +33,37 @@ nmap -n localhost
 [...]
 ```
 
+## Install Certificate manager ([cert-manager.io](https://cert-manager.io)) for managing TLS certificates
+
 ```
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
+```
+
+Install cluster issuer (you can deploy per-namespace issuers, as well):
+
+```
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: robert.fuszenecker@outlook.com
+    privateKeySecretRef:
+      name: letsencrypt-prod-key
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+          # class: traefik # for K3s
+```
+
+Test TLS certificate with an ingress resource:
+
+```
+# For K3s, you will find this middleware useful:
+
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
@@ -115,8 +83,8 @@ metadata:
   name: myingress
   namespace: mynamespace
   annotations:
-    kubernetes.io/ingress.class: traefik
-    traefik.ingress.kubernetes.io/router.middlewares: mynamespace-strip-prefix@kubernetescrd
+    kubernetes.io/ingress.class: nginx # or "traefik" for K3s
+    # traefik.ingress.kubernetes.io/router.middlewares: mynamespace-strip-prefix@kubernetescrd
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   tls:
@@ -135,38 +103,11 @@ spec:
               number: 8000
 ```
 
-## Install Certificate manager ([cert-manager.io](https://cert-manager.io/docs/installation/)) for managing TLS certificates issued by e.g. Let's Encrypt
-
-```
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
-```
-
-Forther steps: [Certificate Manager + Let's Encrypt](https://cert-manager.io/docs/tutorials/acme/nginx-ingress/#step-6-configure-let-s-encrypt-issuer)
-
-⚠️ You might want to install certificate issuer to each namespace that contains a service to be exposed.
-
-```
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-prod
-spec:
-  acme:
-    email: robert.fuszenecker@outlook.com
-    privateKeySecretRef:
-      name: letsencrypt-prod-key
-    server: https://acme-v02.api.letsencrypt.org/directory
-    solvers:
-    - http01:
-        ingress:
-          # class: nginx
-          class: traefik
-```
-
-Check certificate requests
+Check certificate requests and certificates:
 
 ```
 kubectl describe certificaterequests -A
+kubectl describe certificates -A
 ```
 
 ## Kubernetes useful commands
@@ -211,12 +152,6 @@ Port-forward (temporarily) a host port to a running service without using ingres
 kubectl port-forward service/grafana 3000:80 -n logging --address=0.0.0.0
 ```
 
-Say goodbye to a custer:
-
-```
-sudo kubeadm reset
-```
-
 ## Helm useful commands
 
 ```
@@ -231,12 +166,10 @@ helm list -A
 helm repo index .
 ```
 
-## Troubleshooting
+## Useful links
 
-```
-net.ipv6.conf.all.disable_ipv6 = 1
-net.ipv6.conf.default.disable_ipv6 = 1
-net.ipv6.conf.lo.disable_ipv6 = 1
-```
-
-And the [DNS debug page](https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/) at Google.
+* Rancher RKE2: https://docs.rke2.io/ and https://github.com/rancher/rke2
+* Rancher K3s: https://k3s.io/ and https://github.com/k3s-io/k3s
+* https://artifacthub.io/
+* https://artifacthub.io/packages/helm/rancher-latest/rancher
+* https://artifacthub.io/packages/helm/nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
