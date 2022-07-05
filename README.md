@@ -65,7 +65,7 @@ spec:
           # class: traefik
 ```
 
-Test TLS certificate with an ingress resource: see the next subsections.
+Test TLS certificate with an [ingress resource](https://kubernetes.io/docs/concepts/services-networking/ingress/): see the next subsections.
 
 ### Ingress example for NGINX controller
 
