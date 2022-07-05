@@ -20,7 +20,7 @@ mkdir -f ~/.kube
 cp /etc/rancher/rke2/rke2.yaml ~/.kube/config
 ```
 
-Check if pods are ready:
+Check if pods are ready and running:
 
 ```
 kubectl get pods -A
