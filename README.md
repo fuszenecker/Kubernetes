@@ -61,14 +61,43 @@ spec:
     - http01:
         ingress:
           class: nginx
-          # class: traefik # for K3s
+          # For K3s:
+          # class: traefik
 ```
 
-Test TLS certificate with an ingress resource:
+Test TLS certificate with an ingress resource: see the next subsections.
+
+### Ingress example for NGINX controller
 
 ```
-# For K3s, and only for K3s, you will find this middleware useful:
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+  namespace: mynamespace
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+  - hosts:
+      - fuszenecker.eu
+    secretName: letsencrypt-prod-cert
+  rules:
+  - http:
+      paths:
+      - path: /mypath(/|$)(.*)
+        backend:
+          service:
+            name: myservice
+            port:
+              number: 8000
+```
 
+### Ingress example for Traefik controller
+
+```
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
@@ -88,10 +117,8 @@ metadata:
   name: myingress
   namespace: mynamespace
   annotations:
-    # `nginx` for RKE2 and `traefik` for K3s:
-    kubernetes.io/ingress.class: nginx
-    # For K3s:
-    # traefik.ingress.kubernetes.io/router.middlewares: mynamespace-strip-prefix@kubernetescrd
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.middlewares: mynamespace-strip-prefix@kubernetescrd
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   tls:
@@ -110,7 +137,8 @@ spec:
               number: 8000
 ```
 
-Check certificate requests and certificates:
+
+### Check certificate requests and certificates
 
 ```
 kubectl describe certificaterequests -A
