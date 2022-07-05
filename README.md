@@ -2,7 +2,13 @@
 
 ## Bash setup
 
-It's better to set up autocompletion in the very beginning:
+You will need some tools to be installed beforehand:
+
+* kubectl
+* helm
+* nmap (optional)
+
+Optionally, you can setup the `bash` completion:
 
 ```
 sudo -i
@@ -185,7 +191,7 @@ kubectl run -it --rm busybox --image=busybox -n kube-system -- sh
 kubectl run -it --rm debian-slim --image=debian -- bash
 ```
 
-Ron a shell within a running image:
+Run a shell within a running image:
 
 ```
 kubectl exec --stdin --tty my-pod -- /bin/sh
