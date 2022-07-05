@@ -13,11 +13,16 @@ kubectl completion bash >/etc/bash_completion.d/kubectl
 
 Please visit [RKE2 Quick Start page](https://docs.rke2.io/install/quickstart/) or [K3s page](https://k3s.io/).
 
-Check if pods are ready:
+Save `kubectl` config:
 
 ```
 mkdir -f ~/.kube
 cp /etc/rancher/rke2/rke2.yaml ~/.kube/config
+```
+
+Check if pods are ready:
+
+```
 kubectl get pods -A
 kubectl get pods -Aw
 ```
