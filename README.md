@@ -13,11 +13,16 @@ kubectl completion bash >/etc/bash_completion.d/kubectl
 
 Please visit [RKE2 Quick Start page](https://docs.rke2.io/install/quickstart/) or [K3s page](https://k3s.io/).
 
-Check if pods are ready:
+Save `kubectl` config:
 
 ```
 mkdir -f ~/.kube
 cp /etc/rancher/rke2/rke2.yaml ~/.kube/config
+```
+
+Check if pods are ready and running:
+
+```
 kubectl get pods -A
 kubectl get pods -Aw
 ```
@@ -56,14 +61,43 @@ spec:
     - http01:
         ingress:
           class: nginx
-          # class: traefik # for K3s
+          # For K3s:
+          # class: traefik
 ```
 
-Test TLS certificate with an ingress resource:
+Test TLS certificate with an [ingress resource](https://kubernetes.io/docs/concepts/services-networking/ingress/): see the next subsections.
+
+### Ingress example for NGINX controller
 
 ```
-# For K3s, you will find this middleware useful:
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+  namespace: mynamespace
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+  - hosts:
+      - fuszenecker.eu
+    secretName: letsencrypt-prod-cert
+  rules:
+  - http:
+      paths:
+      - path: /mypath(/|$)(.*)
+        backend:
+          service:
+            name: myservice
+            port:
+              number: 8000
+```
 
+### Ingress example for Traefik controller
+
+```
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
@@ -83,8 +117,8 @@ metadata:
   name: myingress
   namespace: mynamespace
   annotations:
-    kubernetes.io/ingress.class: nginx # or "traefik" for K3s
-    # traefik.ingress.kubernetes.io/router.middlewares: mynamespace-strip-prefix@kubernetescrd
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.middlewares: mynamespace-strip-prefix@kubernetescrd
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   tls:
@@ -103,7 +137,8 @@ spec:
               number: 8000
 ```
 
-Check certificate requests and certificates:
+
+### Check certificate requests and certificates
 
 ```
 kubectl describe certificaterequests -A
