@@ -223,6 +223,18 @@ helm list -A
 helm repo index .
 ```
 
+### Minecrafe
+
+```
+kubectl create namespace minecraft
+helm repo add minecraft-server-charts https://itzg.github.io/minecraft-server-charts/
+helm install minecraft-bedrock minecraft-server-charts/minecraft \
+     -n minecraft \
+     --set minecraftServer.eula=true \
+     --set persistence.storageClass="local-path" \
+     --set persistence.dataDir.enabled=true
+```
+
 ## Useful links
 
 * Rancher RKE2: https://docs.rke2.io/ and https://github.com/rancher/rke2
