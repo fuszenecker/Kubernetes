@@ -67,7 +67,7 @@ spec:
 Test TLS certificate with an ingress resource:
 
 ```
-# For K3s, you will find this middleware useful:
+# For K3s, and only for K3s, you will find this middleware useful:
 
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
@@ -88,7 +88,9 @@ metadata:
   name: myingress
   namespace: mynamespace
   annotations:
-    kubernetes.io/ingress.class: nginx # or "traefik" for K3s
+    # `nginx` for RKE2 and `traefik` for K3s:
+    kubernetes.io/ingress.class: nginx
+    # For K3s:
     # traefik.ingress.kubernetes.io/router.middlewares: mynamespace-strip-prefix@kubernetescrd
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
