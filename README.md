@@ -145,6 +145,28 @@ kubectl describe certificaterequests -A
 kubectl describe certificates -A
 ```
 
+## Install NFS provisioner for dynamic provisioning
+
+Ensure that `nfs-server.local.net:/srv/nfs` is exported, on `nfs-server.local.net` run:
+
+```
+sudo exportfs -v
+```
+
+If the NFS share is ready, run:
+
+```
+helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+
+helm install nfs-subdir-external-provisioner \
+    nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
+    -n nfs-subdir-external-provisioner
+    --set nfs.server=nfs-server.local.net \
+    --set nfs.path=/srv/nfs
+```
+
+Later on, you can use the storage class `nfs-client` for **dynamic provisioning**.
+
 ## Kubernetes useful commands
 
 [kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
