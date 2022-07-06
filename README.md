@@ -7,6 +7,7 @@ You will need some tools to be installed beforehand:
 * kubectl
 * helm
 * nmap (optional)
+* open-iscsi for Longhorn (optional)
 
 Optionally, you can setup the `bash` completion:
 
@@ -151,6 +152,45 @@ kubectl describe certificaterequests -A
 kubectl describe certificates -A
 ```
 
+## Install Longhorn
+
+```
+helm repo add longhorn https://charts.longhorn.io
+helm repo update
+helm install longhorn longhorn/longhorn --namespace longhorn-system --create-namespace
+```
+
+You can create your own storageclass:
+
+```
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: longhorn
+provisioner: driver.longhorn.io
+allowVolumeExpansion: true
+parameters:
+  numberOfReplicas: "3"
+  staleReplicaTimeout: "2880" # 48 hours in minutes
+  fromBackup: ""
+```
+
+Test persistent volume claim:
+
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: longhorn-volv-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 2Gi
+```
+
 ## Install NFS provisioner for dynamic provisioning
 
 Ensure that `nfs-server.local.net:/srv/nfs` is exported, on `nfs-server.local.net` run:
@@ -163,6 +203,8 @@ If the NFS share is ready, run:
 
 ```
 helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+
+kubectl create namespace nfs-subdir-external-provisioner
 
 helm install nfs-subdir-external-provisioner \
     nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
