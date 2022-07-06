@@ -229,7 +229,7 @@ helm list -A
 helm repo index .
 ```
 
-### Minecrafe
+### Minecraft
 
 ```
 kubectl create namespace minecraft
