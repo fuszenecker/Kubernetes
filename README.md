@@ -213,7 +213,21 @@ helm install nfs-subdir-external-provisioner \
     --set nfs.path=/srv/nfs
 ```
 
-Later on, you can use the storage class `nfs-client` for **dynamic provisioning**.
+Later on, you can use the storage class `nfs-client` for **dynamic provisioning**:
+
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-volv-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: nfs-client
+  resources:
+    requests:
+      storage: 2Gi
+```
 
 ## Kubernetes useful commands
 
