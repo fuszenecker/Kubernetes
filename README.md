@@ -152,7 +152,7 @@ kubectl describe certificaterequests -A
 kubectl describe certificates -A
 ```
 
-## Install Longhorn
+## Install Longhorn (dynamic provisioning)
 
 ```
 helm repo add longhorn https://charts.longhorn.io
@@ -191,7 +191,7 @@ spec:
       storage: 2Gi
 ```
 
-## Install NFS provisioner for dynamic provisioning
+## Install NFS provisioner (dynamic provisioning)
 
 Ensure that `nfs-server.local.net:/srv/nfs` is exported, on `nfs-server.local.net` run:
 
