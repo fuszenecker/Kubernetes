@@ -154,6 +154,13 @@ kubectl describe certificates -A
 
 ## Install Longhorn (dynamic provisioning)
 
+You might want to start `iscsid.service`:
+
+```
+sudo systemd enable iscsid.service
+sudo systemd start iscsid.service
+```
+
 ```
 helm repo add longhorn https://charts.longhorn.io
 helm repo update
