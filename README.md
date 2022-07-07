@@ -152,7 +152,9 @@ kubectl describe certificaterequests -A
 kubectl describe certificates -A
 ```
 
-## Install Longhorn (dynamic provisioning)
+## Persistence with dynamic provisioning
+
+### Install Longhorn
 
 You might want to start `iscsid.service`:
 
@@ -198,7 +200,7 @@ spec:
       storage: 2Gi
 ```
 
-## Install NFS provisioner (dynamic provisioning)
+### Install NFS provisioner (dynamic provisioning)
 
 Ensure that `nfs-server.local.net:/srv/nfs` is exported, on `nfs-server.local.net` run:
 
@@ -220,21 +222,68 @@ helm install nfs-subdir-external-provisioner \
     --set nfs.path=/srv/nfs
 ```
 
-Later on, you can use the storage class `nfs-client` for **dynamic provisioning**:
+Later on, you can use the storage class `nfs-client` for dynamic provisioning:
+
+### Check if persistence work
+
+Persistence volume claim:
 
 ```
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nfs-volv-pvc
+  name: busybox-pvc
+  namespace: mynamespace
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: nfs-client
+  storageClassName: longhorn
+  # storageClassName: nfs-client
+  # storageClassName: local-path
   resources:
     requests:
-      storage: 2Gi
+      storage: 1Gi
+
 ```
+
+Use `kubectl to see bindings:
+
+```
+kubectl get pvc,pv -n mynamespace
+```
+
+Pod to work with data:
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+  namespace: mynamespace
+spec:
+  containers:
+    - name: busybox
+      image: k8s.gcr.io/busybox
+      command: [ "/bin/sh", "-c", "tail -f /dev/null" ]
+      volumeMounts:
+      - name: myvolume
+        mountPath: "/mnt/myvolume"
+  volumes:
+  - name: myvolume
+    persistentVolumeClaim:
+      claimName: busybox-pvc
+  restartPolicy: Never
+```
+
+Attach to `busybox`:
+
+```
+kubectl exec -it busybox sh
+echo "Hello persistent volumes!" > /mnt/myvolume/hello-pv.txt
+cat /mnt/myvolume/hello-pv.txt
+```
+
+Example from [kubernetes-tutorials](https://github.com/imesh/kubernetes-tutorials/tree/master/create-persistent-volume.
 
 ## Kubernetes useful commands
 
