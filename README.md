@@ -166,6 +166,14 @@ Restart=always
 RestartSec=10
 ```
 
+Enable and start service:
+
+```
+systemd enable socat
+systemd start socat
+systemd status socat
+```
+
 ## Persistence with dynamic provisioning
 
 ### Install Longhorn
