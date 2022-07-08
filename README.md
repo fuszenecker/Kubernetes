@@ -222,7 +222,7 @@ spec:
       storage: 2Gi
 ```
 
-### Install NFS provisioner (dynamic provisioning)
+### Install NFS provisioner
 
 Ensure that `nfs-server.local.net:/srv/nfs` is exported, on `nfs-server.local.net` run:
 
@@ -305,7 +305,7 @@ echo "Hello persistent volumes!" > /mnt/myvolume/hello-pv.txt
 cat /mnt/myvolume/hello-pv.txt
 ```
 
-Example from [kubernetes-tutorials](https://github.com/imesh/kubernetes-tutorials/tree/master/create-persistent-volume.
+Example from [kubernetes-tutorials](https://github.com/imesh/kubernetes-tutorials/tree/master/create-persistent-volume).
 
 ## Kubernetes useful commands
 
