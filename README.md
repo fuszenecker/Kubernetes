@@ -144,12 +144,26 @@ spec:
               number: 8000
 ```
 
-
 ### Check certificate requests and certificates
 
 ```
 kubectl describe certificaterequests -A
 kubectl describe certificates -A
+```
+
+### IPv6 proxying
+
+Create the service definition `/etc/systemd/system/socat.service`:
+
+```
+[Install]
+WantedBy=multi-user.target
+Type=forking
+
+[Service]
+ExecStart=/usr/bin/socat TCP6-LISTEN:443,fork,reuseaddr TCP4:192.168.100.204:443
+Restart=always
+RestartSec=10
 ```
 
 ## Persistence with dynamic provisioning
