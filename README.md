@@ -18,7 +18,7 @@ kubectl completion bash >/etc/bash_completion.d/kubectl
 
 ## Cluster setup
 
-Please visit [RKE2 Quick Start page](https://docs.rke2.io/install/quickstart/) or [K3s page](https://k3s.io/).
+Please visit the [RKE2 Quick Start page](https://docs.rke2.io/install/quickstart/) or the [K3s homepage](https://k3s.io/).
 
 Save `kubectl` config:
 
