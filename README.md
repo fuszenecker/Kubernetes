@@ -268,7 +268,7 @@ spec:
 
 ```
 
-Use `kubectl to see bindings:
+Use `kubectl` to see bindings:
 
 ```
 kubectl get pvc,pv -n mynamespace
