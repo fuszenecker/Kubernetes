@@ -20,7 +20,13 @@ kubectl completion bash >/etc/bash_completion.d/kubectl
 
 Please visit the [RKE2 Quick Start page](https://docs.rke2.io/install/quickstart/) or the [K3s homepage](https://k3s.io/).
 
-Save `kubectl` config:
+Add permission to configuration file (K3s):
+
+```
+setfacl -m u:fuszenecker:r /etc/rancher/k3s/k3s.yaml
+```
+
+Or save `kubectl` config (RKE2):
 
 ```
 mkdir -f ~/.kube
