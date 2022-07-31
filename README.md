@@ -24,6 +24,7 @@ Add permission to configuration file (K3s):
 
 ```
 setfacl -m u:fuszenecker:r /etc/rancher/k3s/k3s.yaml
+ln -s /etc/rancher/k3s/k3s.yaml ~/.kube/config
 ```
 
 Or save `kubectl` config (RKE2):
