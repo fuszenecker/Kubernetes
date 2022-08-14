@@ -205,7 +205,7 @@ helm install nfs-subdir-external-provisioner \
     --set nfs.path=/srv/nfs
 ```
 
-Later on, you can use the storage class `nfs-client` for dynamic provisioning:
+Later on, you can use the storage class `nfs-client` for dynamic provisioning.
 
 ### Install Longhorn
 
@@ -237,21 +237,7 @@ parameters:
   fromBackup: ""
 ```
 
-Test persistent volume claim:
-
-```
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: longhorn-volv-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: longhorn
-  resources:
-    requests:
-      storage: 2Gi
-```
+Later on, you can use the storage class `longhorn` for dynamic provisioning.
 
 ### Check if persistence works
 
