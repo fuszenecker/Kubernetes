@@ -1,5 +1,7 @@
 # Logging with Elasticsearch and Kibana
 
+:warning: Use Grafana instead.
+
 Create namespace for logging:
 
 ```
