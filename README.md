@@ -183,30 +183,6 @@ systemd status socat
 
 ## Persistence with dynamic provisioning
 
-### Install NFS provisioner
-
-Ensure that `nfs-server.local.net:/srv/nfs` is exported, on `nfs-server.local.net` run:
-
-```
-sudo exportfs -v
-```
-
-If the NFS share is ready, run:
-
-```
-helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
-
-kubectl create namespace nfs-subdir-external-provisioner
-
-helm install nfs-subdir-external-provisioner \
-    nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
-    -n nfs-subdir-external-provisioner \
-    --set nfs.server=nfs-server.local.net \
-    --set nfs.path=/srv/nfs
-```
-
-Later on, you can use the storage class `nfs-client` for dynamic provisioning.
-
 ### Install Longhorn
 
 You might want to start `iscsid.service`:
@@ -238,6 +214,30 @@ parameters:
 ```
 
 Later on, you can use the storage class `longhorn` for dynamic provisioning.
+
+### Install NFS provisioner
+
+Ensure that `nfs-server.local.net:/srv/nfs` is exported, on `nfs-server.local.net` run:
+
+```
+sudo exportfs -v
+```
+
+If the NFS share is ready, run:
+
+```
+helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+
+kubectl create namespace nfs-subdir-external-provisioner
+
+helm install nfs-subdir-external-provisioner \
+    nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
+    -n nfs-subdir-external-provisioner \
+    --set nfs.server=nfs-server.local.net \
+    --set nfs.path=/srv/nfs
+```
+
+Later on, you can use the storage class `nfs-client` for dynamic provisioning.
 
 ### Check if persistence works
 
