@@ -188,8 +188,8 @@ systemd status socat
 You might want to start `iscsid.service`:
 
 ```
-sudo systemd enable iscsid.service
-sudo systemd start iscsid.service
+sudo systemctl enable iscsid.service
+sudo systemctl start iscsid.service
 ```
 
 ```
