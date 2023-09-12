@@ -16,7 +16,7 @@ function Write-Step {
 
 function Install-Packages {
     Write-Step "Installing packages..."
-    sudo apt install curl wget
+    sudo apt install curl wget open-iscsi
 }
 
 function Install-K3s {
@@ -116,23 +116,23 @@ function Install-RancherUI {
 
     kubectl create namespace cattle-system
 
-    # helm install --wait rancher rancher-stable/rancher `
-    #     --namespace cattle-system `
-    #     --set hostname=rancher.$domain `
-    #     --set bootstrapPassword=admin `
-    #     --set ingress.tls.source=letsEncrypt `
-    #     --set letsEncrypt.email=robert.fuszenecker@outlook.com `
-    #     --set letsEncrypt.ingress.class=traefik
-
-    Write-Host "DOMAIN: " $domain
-
-    helm install --wait rancher rancher `
+    helm install --wait rancher rancher-stable/rancher `
         --namespace cattle-system `
         --set hostname=rancher.$domain `
         --set bootstrapPassword=admin `
         --set ingress.tls.source=letsEncrypt `
         --set letsEncrypt.email=robert.fuszenecker@outlook.com `
         --set letsEncrypt.ingress.class=traefik
+
+    # Write-Host "DOMAIN: " $domain
+
+    # helm install --wait rancher rancher `
+    #     --namespace cattle-system `
+    #     --set hostname=rancher.$domain `
+    #     --set bootstrapPassword=admin `
+    #     --set ingress.tls.source=letsEncrypt `
+    #     --set letsEncrypt.email=robert.fuszenecker@outlook.com `
+    #     --set letsEncrypt.ingress.class=traefik
 }
 
 function Wait-Keypress { 
@@ -142,11 +142,8 @@ function Wait-Keypress {
 }
 
 Install-Packages
-
 Install-K3s
-
 Setup-ClouDNS
-
 Install-Helm
 
 Wait-Keypress
