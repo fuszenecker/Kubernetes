@@ -111,6 +111,12 @@ helm install prometheus prometheus-community/prometheus -n logging --set alertma
 kubectl get pods,pvc,pv -n logging -o wide
 ```
 
+Install Tempo
+
+```
+helm install tempo grafana/tempo -n logging
+```
+
 Add Grafana:
 
 ```
