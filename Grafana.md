@@ -164,6 +164,11 @@ service/prometheus-pushgateway          ClusterIP   10.2.87.136    <none>       
 service/prometheus-server               ClusterIP   10.2.215.131   <none>        80/TCP     10m   app=prometheus,component=server,release=prometheus
 ```
 
+Install OpenTelemetry Collector:
+
+```
+```
+
 Add port-forward so that you can access Grafana and Loki:
 
 ```
