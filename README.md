@@ -165,7 +165,6 @@ Create the service definition `/etc/systemd/system/socat.service`:
 ```
 [Install]
 WantedBy=multi-user.target
-Type=forking
 
 [Service]
 ExecStart=/usr/bin/socat TCP6-LISTEN:443,fork,reuseaddr TCP4:127.0.0.1:443
