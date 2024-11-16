@@ -20,7 +20,7 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo update
 ```
 
-Create persistent volumes:
+Create persistent volumes (`observability-storage.yaml`:
 
 ```
 apiVersion: v1
@@ -97,10 +97,14 @@ spec:
           - raspberry
 ```
 
+```
+kubectl apply -f observability-storage.yaml
+```
+
 Install Loki and Promtail, and wait until they start:
 
 ```
-helm install loki-stack grafana/loki-stack -n logging --set loki.persistence.enabled=true --set loki.persistence.storageClassName=local-storage
+helm install loki-stack grafana/loki-stack -n observability --set loki.persistence.enabled=true --set loki.persistence.storageClassName=local-storage
 kubectl get pods,pvc,pv -n logging -o wide
 ```
 
