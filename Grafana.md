@@ -117,7 +117,7 @@ kubectl get secret --namespace logging grafana -o jsonpath="{.data.admin-passwor
 Install Loki and Promtail, and wait until they start:
 
 ```
-helm install loki-stack grafana/loki-stack -n observability --set loki.persistence.enabled=true --set loki.persistence.storageClassName=local-storage
+helm install loki-stack grafana/loki-stack -n observability --set loki.persistence.enabled=true --set loki.persistence.storageClassName=local-storage --set persistence.size="10Gi"
 kubectl get pods,pvc,pv -n logging -o wide
 ```
 
@@ -191,22 +191,23 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: grafana-ingress
-  namespace: logging
+  namespace: observability
   annotations:
     cert-manager.io/issuer: "letsencrypt-prod"
     kubernetes.io/ingress.class: nginx
 spec:
   tls:
   - hosts:
-      - fuszenecker-grafana.ignorelist.com
+      - fuszenecker.eu
+      - grafana.fuszenecker.eu
     secretName: grafana-tls
-  defaultBackend:
-    service:
-      name: test
-      port:
-        number: 80
+#  defaultBackend:
+#    service:
+#      name: test
+#      port:
+x        number: 80
   rules:
-  - host: fuszenecker-grafana.ignorelist.com
+  - host: grafana.fuszenecker.eu
     http:
       paths:
       - path: /
