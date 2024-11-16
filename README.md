@@ -182,17 +182,7 @@ systemd status socat
 
 ## Observability
 
-Setup Grafana chart repository:
-
-```
-helm repo add grafana https://grafana.github.io/helm-charts
-helm repo update
-```
-Create `observability.yaml`:
-
-```
-
-```
+See [[Grafana.md]]
 
 ## Persistence with dynamic provisioning
 
