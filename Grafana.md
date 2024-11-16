@@ -114,6 +114,36 @@ Get the `admin` password for Grafana:
 kubectl get secret --namespace logging grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 
+You will need a TLS-enabled ingress for Grafana:
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: observability
+  annotations:
+    cert-manager.io/issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+      - fuszenecker.eu
+      - grafana.fuszenecker.eu
+    secretName: grafana-tls
+  rules:
+  - host: grafana.fuszenecker.eu
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: grafana
+            port:
+              number: 80
+```
+
 Install Loki and Promtail, and wait until they start:
 
 ```
@@ -184,41 +214,7 @@ kubectl port-forward service/prometheus-pushgateway 9091 -n observability --addr
 
 ## Ingress rules
 
-You will need a TLS-enabled ingress like this:
 
-```
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: grafana-ingress
-  namespace: observability
-  annotations:
-    cert-manager.io/issuer: "letsencrypt-prod"
-    kubernetes.io/ingress.class: nginx
-spec:
-  ingressClassName: nginx
-  tls:
-  - hosts:
-      - fuszenecker.eu
-      - grafana.fuszenecker.eu
-    secretName: grafana-tls
-#  defaultBackend:
-#    service:
-#      name: test
-#      port:
-x        number: 80
-  rules:
-  - host: grafana.fuszenecker.eu
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: grafana
-            port:
-              number: 80
-```
 
 ## Serilog setup
 
