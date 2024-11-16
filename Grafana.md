@@ -9,7 +9,7 @@ sudo mkdir -p /var/lib/{grafana,loki,prometheus}
 Create namespace for logging:
 
 ```
-kubectl create namespace logging
+kubectl create namespace observability
 ```
 
 Add helm repos:
@@ -107,20 +107,20 @@ kubectl get pods,pvc,pv -n logging -o wide
 Install Prometheus and wait until it starts:
 
 ```
-helm install prometheus prometheus-community/prometheus -n logging --set alertmanager.enabled=false --set nodeExporter.enabled=false --set pushgateway.enabled=true --set server.persistentVolume.enabled=true --set server.persistentVolume.storageClass=local-storage
+helm install prometheus prometheus-community/prometheus -n observability --set alertmanager.enabled=false --set nodeExporter.enabled=false --set pushgateway.enabled=true --set server.persistentVolume.enabled=true --set server.persistentVolume.storageClass=local-storage
 kubectl get pods,pvc,pv -n logging -o wide
 ```
 
 Install Tempo
 
 ```
-helm install tempo grafana/tempo -n logging
+helm install tempo grafana/tempo -n observability
 ```
 
 Add Grafana:
 
 ```
-helm install grafana grafana/grafana -n logging --set persistence.enabled=true --set persistence.storageClassName=local-storage --set persistence.size="5Gi"
+helm install grafana grafana/grafana -n observability --set persistence.enabled=true --set persistence.storageClassName=local-storage --set persistence.size="5Gi"
 kubectl get pods,pvc,pv -n logging -o wide
 ```
 
