@@ -44,7 +44,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - fuszenecker-linux
+          - raspberry
 
 ---
 
@@ -69,7 +69,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - fuszenecker-linux
+          - raspberry
 
 ---
 
@@ -94,7 +94,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - fuszenecker-linux
+          - raspberry
 ```
 
 Install Loki and Promtail, and wait until they start:
