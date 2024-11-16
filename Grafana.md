@@ -16,7 +16,7 @@ Add helm repos:
 
 ```
 helm repo add grafana https://grafana.github.io/helm-charts
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+## helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 ```
 
@@ -124,7 +124,7 @@ helm install tempo grafana/tempo -n observability
 Add Grafana:
 
 ```
-helm install grafana grafana/grafana -n observability --set persistence.enabled=true --set persistence.storageClassName=local-storage --set persistence.size="5Gi"
+  helm install grafana grafana/grafana -n observability --set persistence.enabled=true --set persistence.storageClassName=local-storage --set persistence.size="5Gi"
 kubectl get pods,pvc,pv -n logging -o wide
 ```
 
@@ -176,10 +176,10 @@ Install OpenTelemetry Collector:
 Add port-forward so that you can access Grafana and Loki:
 
 ```
-kubectl port-forward service/grafana 3000:80 -n logging --address=0.0.0.0
-kubectl port-forward service/prometheus-server 9090:80 -n logging --address=0.0.0.0
-kubectl port-forward service/loki-stack 3100 -n logging --address=0.0.0.0
-kubectl port-forward service/prometheus-pushgateway 9091 -n logging --address=0.0.0.0
+kubectl port-forward service/grafana 3000:80 -n observability --address=0.0.0.0
+kubectl port-forward service/prometheus-server 9090:80 -n observability --address=0.0.0.0
+kubectl port-forward service/loki-stack 3100 -n observability --address=0.0.0.0
+kubectl port-forward service/prometheus-pushgateway 9091 -n observability --address=0.0.0.0
 ```
 
 ## Ingress rules
