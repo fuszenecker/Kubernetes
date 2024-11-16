@@ -180,6 +180,20 @@ systemd start socat
 systemd status socat
 ```
 
+## Observability
+
+Setup Grafana chart repository:
+
+```
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+```
+Create `observability.yaml`:
+
+```
+
+```
+
 ## Persistence with dynamic provisioning
 
 ### Install Longhorn
