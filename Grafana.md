@@ -101,6 +101,19 @@ spec:
 kubectl apply -f observability-storage.yaml
 ```
 
+Install Grafana:
+
+```
+helm install grafana grafana/grafana -n observability --set persistence.enabled=true --set persistence.storageClassName=local-storage --set persistence.size="5Gi"
+kubectl get pods,pvc,pv -n logging -o wide
+```
+
+Get the `admin` password for Grafana:
+
+```
+kubectl get secret --namespace logging grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+```
+
 Install Loki and Promtail, and wait until they start:
 
 ```
@@ -119,19 +132,6 @@ Install Tempo
 
 ```
 helm install tempo grafana/tempo -n observability
-```
-
-Add Grafana:
-
-```
-  helm install grafana grafana/grafana -n observability --set persistence.enabled=true --set persistence.storageClassName=local-storage --set persistence.size="5Gi"
-kubectl get pods,pvc,pv -n logging -o wide
-```
-
-Get the `admin` password for Grafana:
-
-```
-kubectl get secret --namespace logging grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 
 
