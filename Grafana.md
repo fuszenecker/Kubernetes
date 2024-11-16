@@ -16,7 +16,7 @@ Add helm repos:
 
 ```
 helm repo add grafana https://grafana.github.io/helm-charts
-## helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 ```
 
@@ -111,7 +111,7 @@ kubectl get pods,pvc,pv -n logging -o wide
 Get the `admin` password for Grafana:
 
 ```
-kubectl get secret --namespace logging grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+kubectl get secret --namespace observability grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 
 You will need a TLS-enabled ingress for Grafana:
@@ -154,7 +154,7 @@ kubectl get pods,pvc,pv -n logging -o wide
 Install Prometheus and wait until it starts:
 
 ```
-helm install prometheus prometheus-community/prometheus -n observability --set alertmanager.enabled=false --set nodeExporter.enabled=false --set pushgateway.enabled=true --set server.persistentVolume.enabled=true --set server.persistentVolume.storageClass=local-storage
+helm install prometheus prometheus-community/prometheus -n observability --set alertmanager.enabled=false --set nodeExporter.enabled=true --set pushgateway.enabled=true --set server.persistentVolume.enabled=true --set server.persistentVolume.storageClass=local-storage --set persistence.size="8Gi"
 kubectl get pods,pvc,pv -n logging -o wide
 ```
 
@@ -163,9 +163,6 @@ Install Tempo
 ```
 helm install tempo grafana/tempo -n observability
 ```
-
-
-Install Prometheus and wait until it starts:
 
 Check everything:
 
