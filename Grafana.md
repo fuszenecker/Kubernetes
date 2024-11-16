@@ -196,6 +196,7 @@ metadata:
     cert-manager.io/issuer: "letsencrypt-prod"
     kubernetes.io/ingress.class: nginx
 spec:
+  ingressClassName: nginx
   tls:
   - hosts:
       - fuszenecker.eu
