@@ -180,12 +180,6 @@ systemd start socat
 systemd status socat
 ```
 
-## FluxCD
-
-```
-kubectl apply -f https://github.com/fluxcd/flux2/releases/latest/download/install.yaml
-```
-
 ## Observability
 
 ```
