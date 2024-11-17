@@ -182,7 +182,71 @@ systemd status socat
 
 ## Observability
 
-See [[Grafana.md]]
+Create PV for `openobserve`:
+
+```
+sudo mkdir -p /var/lib/openobserve
+```
+
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: openobserve-data
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: local-storage
+  local:
+    path: /var/lib/openobserve
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - raspberry
+```
+
+```
+kubectl create ns openobserve
+kubectl apply -f https://raw.githubusercontent.com/zinclabs/openobserve/main/deploy/k8s/statefulset.yaml
+```
+
+Create ingress for `openobserve`:
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: openobserve-ingress
+  namespace: openobserve
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+      - fuszenecker.eu
+      - grafana.fuszenecker.eu
+    secretName: openobserve-tls
+  rules:
+  - host: grafana.fuszenecker.eu
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: openobserve
+            port:
+              number: 5080
+```
 
 ## Persistence with dynamic provisioning
 
