@@ -180,6 +180,12 @@ systemd start socat
 systemd status socat
 ```
 
+## FluxCD
+
+```
+kubectl apply -f https://github.com/fluxcd/flux2/releases/latest/download/install.yaml
+```
+
 ## Observability
 
 ```
@@ -194,7 +200,7 @@ helm repo
 ```
 
 ```
-helm install opensearch opensearch/opensearch -n observability --set singleNode=true,persistence.enabled=true,persistence.storageClass=local-storage,persistence.size=8Gi
+helm install opensearch opensearch/opensearch -n observability --set singleNode=true --set persistence.enabled=true --set persistence.storageClass=local-storage --set persistence.size=8Gi
 ```
 
 Create PV for `opensearch`:
