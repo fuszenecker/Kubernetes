@@ -182,27 +182,42 @@ systemd status socat
 
 ## Observability
 
-Create PV for `openobserve`:
+```
+kubectl create namespace observability
+```
+
+### Logs
 
 ```
-sudo mkdir -p /var/lib/openobserve
+helm repo add opensearch https://opensearch-project.github.io/helm-charts/
+helm repo
+```
+
+```
+helm install opensearch opensearch/opensearch -n observability --set singleNode=true,persistence.enabled=true,persistence.storageClass=local-storage,persistence.size=8Gi
+```
+
+Create PV for `opensearch`:
+
+```
+sudo mkdir -p /var/lib/observability
 ```
 
 ```
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: openobserve-data
+  name: observability-data
 spec:
   capacity:
-    storage: 10Gi
+    storage: 8Gi
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: /var/lib/openobserve
+    path: /var/lib/observability
   nodeAffinity:
     required:
       nodeSelectorTerms:
